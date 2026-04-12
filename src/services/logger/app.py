@@ -61,7 +61,7 @@ def main():
     # Log configuration
     cfg = config.get_config()
     logger.info(f"Log level set to: {cfg['log_level']}")
-    logger.info(f"Log frequency: {cfg['log_frequency']} seconds")
+    logger.info(f"Log frequency: {cfg['log_rate']} seconds")
     
     if cfg["log_to_file"]:
         logger.info(f"Logging to file: {cfg['log_file_path']}")
@@ -82,7 +82,7 @@ def main():
         while True:
             # Service is alive message (at configured frequency)
             logger.info("Logger service is running as part of our distributed system")
-            time.sleep(cfg["log_frequency"])
+            time.sleep(cfg["log_rate"])
     except KeyboardInterrupt:
         logger.info("Logger service shutting down")
 

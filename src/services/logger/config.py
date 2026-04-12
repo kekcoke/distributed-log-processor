@@ -14,11 +14,11 @@ LOG_LEVELS = {
 
 # Default configuration values
 DEFAULT_CONFIG = {
+    # Log levels distribution (severity hierarchy)
+    "log_levels": LOG_LEVELS,
+
     # Log level (can be overridden by environment variable)
     "log_level": os.environ.get("LOG_LEVEL", "INFO"),
-    
-    # How often to log messages (in seconds)
-    "log_frequency": float(os.environ.get("LOG_FREQUENCY", "5.0")),
     
     # Log file settings
     "log_to_file": os.environ.get("LOG_TO_FILE", "true").lower() == "true",
@@ -28,6 +28,12 @@ DEFAULT_CONFIG = {
     # Format strings for different log destinations
     "console_format": "[{timestamp}] [{level}] {message}",
     "file_format": "{timestamp} | {level} | {message}",
+    
+    # Console output control
+    "log_to_console": os.environ.get("LOG_TO_CONSOLE", "true").lower() == "true",
+    
+    # Log generator rate (logs per second)
+    "log_rate": float(os.environ.get("LOG_RATE", "0.5")),
     
     # Web interface settings
     "web_host": os.environ.get("WEB_HOST", "0.0.0.0"),

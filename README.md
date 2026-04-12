@@ -25,7 +25,7 @@ The logger service can be configured using environment variables in the `docker-
 | Environment Variable | Description | Default Value |
 |----------------------|-------------|---------------|
 | LOG_LEVEL | Minimum log level to output (DEBUG, INFO, WARNING, ERROR, CRITICAL) | INFO |
-| LOG_FREQUENCY | How often to generate heartbeat logs (seconds) | 5.0 |
+| LOG_RATE | How often to generate heartbeat logs (seconds) | 5.0 |
 | LOG_TO_FILE | Whether to write logs to a file | true |
 | LOG_FILE_PATH | Path where log files will be stored | /logs/logger.log |
 | LOG_MAX_SIZE_MB | Maximum log file size before rotation (MB) | 1.0 |
