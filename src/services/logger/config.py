@@ -2,13 +2,13 @@
 
 import logging
 import logging.config
-from logging.handlers import TimedRotatingFileHandler
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 # =========================
 # Core Settings (edit here)
 # =========================
-LOG_DIR = Path("logs")
+LOG_DIR = Path("/app/logs")
 LOG_FILE = LOG_DIR / "app.log"
 
 LOG_LEVEL_CONSOLE = "INFO"
@@ -17,10 +17,9 @@ LOG_LEVEL_FILE = "DEBUG"
 LOG_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-# Rotation settings
-LOG_ROTATION_WHEN = "midnight"   # e.g. 'midnight', 'H', 'D'
-LOG_ROTATION_INTERVAL = 1
-LOG_BACKUP_COUNT = 7
+# Rotation settings (size-based)
+LOG_MAX_BYTES = 1 * 1024 * 1024  # 1MB
+LOG_BACKUP_COUNT = 5
 
 
 # =========================
@@ -49,12 +48,11 @@ def setup_logging():
                 "stream": "ext://sys.stdout",
             },
             "file": {
-                "class": "logging.handlers.TimedRotatingFileHandler",
+                "class": "logging.handlers.RotatingFileHandler",
                 "level": LOG_LEVEL_FILE,
                 "formatter": "standard",
                 "filename": str(LOG_FILE),
-                "when": LOG_ROTATION_WHEN,
-                "interval": LOG_ROTATION_INTERVAL,
+                "maxBytes": LOG_MAX_BYTES,
                 "backupCount": LOG_BACKUP_COUNT,
                 "encoding": "utf-8",
             },
