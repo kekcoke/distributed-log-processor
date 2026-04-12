@@ -11,67 +11,67 @@ We're building a distributed system for processing log data at scale. This repos
 ### Prerequisites
 - Docker and Docker Compose
 - Git
-- Python 3.9+ (for local development)
+- VS Code (recommended)
 
 ### Running the Application
 1. Clone this repository
 2. Navigate to the project directory
-3. Run `docker-compose up`
-
-## Features
-
-### Logger Service
-- **Dual Output**: Logs are written to both console and file
-- **Log Rotation**: Automatic rotation when file exceeds 1MB (keeps 5 backups)
-- **Configurable Log Levels**: Separate levels for console and file output
-
-### Web Interface
-A minimal web dashboard is available at `http://localhost:8080`:
-- View current configuration settings
-- Display recent logs (last 100 lines)
-- Raw log access via `/api/logs` endpoint
+3. Run `docker-compose up` to start the services
 
 ## Configuration Options
 
-Configure the logger service by editing `src/services/logger/config.py`:
+The logger service can be configured using environment variables in the `docker-compose.yml` file:
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| `LOG_DIR` | Directory for log files | `/app/logs` |
-| `LOG_FILE` | Main log filename | `app.log` |
-| `LOG_LEVEL_CONSOLE` | Console log level | `INFO` |
-| `LOG_LEVEL_FILE` | File log level | `DEBUG` |
-| `LOG_MAX_BYTES` | Max log file size before rotation | `1MB` |
-| `LOG_BACKUP_COUNT` | Number of backup files to keep | `5` |
+| Environment Variable | Description | Default Value |
+|----------------------|-------------|---------------|
+| LOG_LEVEL | Minimum log level to output (DEBUG, INFO, WARNING, ERROR, CRITICAL) | INFO |
+| LOG_FREQUENCY | How often to generate heartbeat logs (seconds) | 5.0 |
+| LOG_TO_FILE | Whether to write logs to a file | true |
+| LOG_FILE_PATH | Path where log files will be stored | /logs/logger.log |
+| LOG_MAX_SIZE_MB | Maximum log file size before rotation (MB) | 1.0 |
+| WEB_HOST | Host address for the web interface | 0.0.0.0 |
+| WEB_PORT | Port for the web interface | 8080 |
+| MAX_LOGS_TO_DISPLAY | Maximum number of logs to store in memory for the web interface | 100 |
 
-### Log Levels
-- `DEBUG`: Detailed information for debugging
-- `INFO`: General operational messages
-- `WARNING`: Potential issues
-- `ERROR`: Errors that need attention
+## Web Interface
+
+The logger service includes a web interface for viewing logs and configuration:
+
+- **URL**: http://localhost:8080
+- **Features**:
+  - View recent log messages
+  - See current configuration
+  - Auto-refresh logs every 10 seconds
+  - Filter logs by level using CSS color-coding
+
+## Log File Storage
+
+Logs are stored in the `./logs` directory on your host machine, which is mounted as a volume in the Docker container. Log files are automatically rotated when they reach the configured maximum size.
 
 ## Project Structure
-- `src/services/logger/`: Logger microservice with web interface
-- `logs/`: Persisted log files (created on first run)
+- `src/services/`: Contains individual microservices
+  - `logger/`: The logger service
+    - `app.py`: Main application entry point
+    - `logger.py`: Log handling functionality
+    - `config.py`: Configuration management
+    - `web_server.py`: Web interface implementation
 - `config/`: Configuration files
+- `logs/`: Persistent storage for log files
 - `data/`: Data storage (gitignored)
 - `docs/`: Documentation
 - `tests/`: Test suites
 
-## Day 2 Milestones
-- Implemented dual-output logging (console + file)
-- Added size-based log rotation (1MB limit, 5 backups)
-- Created web interface for log viewing
-- Added volume mapping for log persistence on host
+## Features Implemented
+- Environment setup with Docker, Git, and VS Code
+- Basic logger service with configurable settings
+- Log rotation based on file size
+- Log level filtering
+- Persistent log storage using Docker volumes
+- Web interface for monitoring logs
+- Configuration management and override via environment variables
 
-## Accessing Logs
-
-### Via Web Interface
-- Dashboard: http://localhost:8080
-- Raw logs: http://localhost:8080/api/logs
-
-### Via Host Filesystem
-Logs are persisted to `./logs/` on your host machine:
-```bash
-tail -f logs/app.log
-```
+## Day 1 Homework Accomplishments
+- Created a configuration system with multiple options
+- Implemented log file output with rotation
+- Added a web interface to view logs and configuration
+- Updated documentation with new features and configuration options

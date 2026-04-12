@@ -1,0 +1,2 @@
+# Shared dependencies with logger service
+# Log rotation and configuration handled by shared config module
