@@ -6,21 +6,16 @@ import time
 import random
 from datetime import datetime
 
-# Add parent directory to path for shared config
-import sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'logger'))
-import config as logger_config
-
 
 class LogGenerator:
-    def __init__(self, config=None):
+    def __init__(self, config):
         """Initialize the log generator with configuration settings."""
-        self.config = config if config else logger_config.get_config()
+        self.config = config
         self.ensure_log_directory()
         
     def ensure_log_directory(self):
         """Make sure the log directory exists."""
-        log_dir = os.path.dirname(self.config["log_file_path"])
+        log_dir = os.path.dirname(self.config["OUTPUT_FILE"])
         if log_dir and not os.path.exists(log_dir):
             os.makedirs(log_dir, exist_ok=True)
     
@@ -79,7 +74,7 @@ class LogGenerator:
     
     def _select_log_type(self):
         """Select a log type based on the configured distribution."""
-        distribution = self.config["log_levels"]
+        distribution = self.config["LOG_DISTRIBUTION"]
         types = list(distribution.keys())
         weights = list(distribution.values())
         
@@ -88,20 +83,20 @@ class LogGenerator:
     def write_log(self, log_entry):
         """Write a log entry to the configured outputs."""
         # Write to file if configured
-        if self.config["log_to_file"]:
-            with open(self.config["log_file_path"], "a") as f:
+        if self.config["OUTPUT_FILE"]:
+            with open(self.config["OUTPUT_FILE"], "a") as f:
                 f.write(log_entry + "\n")
         
         # Write to console if configured
-        if self.config["log_to_console"]:
+        if self.config["CONSOLE_OUTPUT"]:
             print(log_entry)
     
     def run(self, duration=None):
         """Run the log generator for a specified duration or indefinitely."""
-        print(f"Starting log generator with rate: {self.config['log_rate']} logs/second")
+        print(f"Starting log generator with rate: {self.config['LOG_RATE']} logs/second")
         
         # Calculate sleep time based on log rate
-        sleep_time = 1.0 / self.config["log_rate"] if self.config["log_rate"] > 0 else 1.0
+        sleep_time = 1.0 / self.config["LOG_RATE"] if self.config["LOG_RATE"] > 0 else 1.0
         
         start_time = time.time()
         count = 0

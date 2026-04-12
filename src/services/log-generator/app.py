@@ -1,79 +1,33 @@
-import random
+"""
+Main application entry point for the log generator service.
+"""
+import os
 import time
 import sys
-import os
-from datetime import datetime
-
-# Add parent directory to path for shared config
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'logger'))
-from config import logger
-
-# Log event types for simulation
-LOG_EVENTS = [
-    ("INFO", "User login successful"),
-    ("INFO", "User logout completed"),
-    ("DEBUG", "Processing request from client"),
-    ("DEBUG", "Cache hit for resource"),
-    ("WARNING", "High memory usage detected: {}%"),
-    ("WARNING", "Slow query detected: {}ms"),
-    ("ERROR", "Connection timeout to database"),
-    ("ERROR", "Failed to process message"),
-    ("INFO", "Batch job started: {} records"),
-    ("DEBUG", "API response received in {}ms"),
-]
-
-SERVICES = ["auth-service", "api-gateway", "worker", "scheduler", "cache"]
-ENDPOINTS = ["/api/users", "/api/data", "/health", "/api/jobs", "/metrics"]
-
-
-def generate_random_log():
-    """Generate a random log event."""
-    level, message = random.choice(LOG_EVENTS)
-
-    # Fill in template placeholders
-    if "{}" in message:
-        if "%" in message:
-            value = random.randint(70, 95)
-            message = message.format(value)
-        elif "ms" in message:
-            value = random.randint(50, 500)
-            message = message.format(value)
-        else:
-            value = random.randint(10, 1000)
-            message = message.format(value)
-
-    # Add context
-    service = random.choice(SERVICES)
-    endpoint = random.choice(ENDPOINTS)
-
-    log_message = f"[{service}] {message} | endpoint={endpoint}"
-    return level, log_message
+from config import config
+from log_generator import LogGenerator
 
 
 def main():
-    """Generate random log events."""
-    print("Starting log generator service...")
-    logger.info("Log generator service starting...")
+    """Run the log generator service."""
+    # Print configuration for debugging
+    print("Starting log generator with configuration:")
+    for key, value in config.items():
+        print(f"  {key}: {value}")
 
-    # Adjust log rate via environment variable
-    interval = float(os.environ.get("LOG_INTERVAL", 2))
+    # Create and run the log generator
+    generator = LogGenerator(config)
 
-    logger.info(f"Log generation interval: {interval} seconds")
-    logger.info("Generating random log events...")
+    # Check if duration was provided as command line argument
+    duration = None
+    if len(sys.argv) > 1:
+        try:
+            duration = float(sys.argv[1])
+            print(f"Generator will run for {duration} seconds")
+        except ValueError:
+            print(f"Invalid duration: {sys.argv[1]}")
 
-    while True:
-        level, message = generate_random_log()
-
-        if level == "DEBUG":
-            logger.debug(message)
-        elif level == "INFO":
-            logger.info(message)
-        elif level == "WARNING":
-            logger.warning(message)
-        elif level == "ERROR":
-            logger.error(message)
-
-        time.sleep(interval)
+    generator.run(duration)
 
 
 if __name__ == "__main__":
