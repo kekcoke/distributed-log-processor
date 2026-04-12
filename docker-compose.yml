@@ -3,6 +3,10 @@ services:
   logger:
     build:
       context: ./src/services/logger
+
+  log-generator:
+    build:
+      context: ./src/services/log-generator
     volumes:
       - ./src/services/logger:/app
       - ./logs:/logs  # Mount a volume for persistent logs
