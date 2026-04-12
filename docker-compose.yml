@@ -6,7 +6,8 @@ services:
 
   log-generator:
     build:
-      context: ./src/services/log-generator
+      context: .
+      dockerfile: src/services/log-generator/Dockerfile
     volumes:
       - ./src/services/logger:/app
       - ./logs:/logs  # Mount a volume for persistent logs
