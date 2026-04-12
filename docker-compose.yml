@@ -11,7 +11,7 @@ services:
       - "8080:8080"  # Web interface port
     environment:
       - LOG_LEVEL=INFO
-      - LOG_FREQUENCY=5.0
+      - LOG_RATE=5.0
       - LOG_TO_FILE=true
       - LOG_FILE_PATH=/logs/logger.log
       - LOG_MAX_SIZE_MB=1.0
