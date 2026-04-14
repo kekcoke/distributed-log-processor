@@ -1,0 +1,128 @@
+# Extended Log Collector Configuration
+
+# Files to monitor (supports glob patterns)
+log_files:
+  - ./sample_logs/application.log    # Plain text
+  - ./sample_logs/access.json         # JSON logs
+  - ./sample_logs/windows_event.xml   # Windows Event
+  - ./sample_logs/cisco_syslog.log    # Cisco IOS
+  - ./sample_logs/access.clf          # Common Log Format
+  - ./sample_logs/access.elf           # Extended Log Format
+  - ./sample_logs/access.w3c          # W3C Extended
+
+# Output settings
+output:
+  directory: ./collected_logs
+  format: ndjson  # Options: json, csv, ndjson
+  filename_pattern: "collected_{date}.{format}"
+
+# Parsing settings
+parsing:
+  auto_detect: true  # Auto-detect log format
+  default_format: plaintext
+  formats:
+    - plaintext
+    - json
+    - windows_event
+    - ce
+    - clf
+    - elf
+    - w3c
+
+# Filtering settings
+filtering:
+  enabled: true
+  mode: AND  # AND or OR
+  
+  # Level-based filtering
+  level:
+    min_level: DEBUG  # Include entries at this level and above
+    # OR use specific levels:
+    # include: [ERROR, CRITICAL]
+    # exclude: [DEBUG]
+  
+  # Regex-based filtering
+  regex:
+    field: message  # message, raw, source, or all
+    exclude_patterns:
+      - "^DEBUG.*heartbeat"
+      - "health.?check"
+    include_patterns:
+      - "error"
+      - "failed"
+      - "exception"
+
+# Tagging settings
+tagging:
+  enabled: true
+  
+  # Rule-based tagging
+  rules:
+    security:
+      - "failed.*login"
+      - "unauthorized"
+      - "authentication"
+      - "access.*denied"
+    database:
+      - "database"
+      - "query"
+      - "connection.*pool"
+      - "sql"
+    network:
+      - "connection"
+      - "timeout"
+      - "socket"
+      - "port"
+    api:
+      - "api"
+      - "rest"
+      - "endpoint"
+      - "http"
+    auth:
+      - "auth"
+      - "token"
+      - "jwt"
+      - "session"
+  
+  # Keyword-based tagging
+  keywords:
+    error: [error, exception, fail, critical]
+    warning: [warning, warn, deprecated]
+    performance: [slow, latency, timeout, bottleneck]
+
+# Error reporting
+error_reporting:
+  enabled: true
+  log_file: ./collected_logs/errors.log
+  track:
+    - parsing_failures
+    - rotation_events
+    - compression_errors
+
+# Log rotation detection
+rotation:
+  enabled: true
+  check_interval: 5  # seconds
+  strategies:
+    - inode_check  # Detect file recreation
+    - size_threshold  # Detect truncation
+    - timestamp_jump  # Detect timestamp going backwards
+
+# Compressed file support
+compression:
+  enabled: true
+  supported: [gz, zip, bz2]  # File extensions to watch
+  auto_decompress: true
+  temp_dir: ./tmp
+
+# Monitoring settings
+monitoring:
+  check_interval: 0.5  # seconds between file checks
+  recursive: false  # Watch subdirectories
+  buffer_size: 1000  # Entries to buffer before writing
+
+# Metrics
+metrics:
+  enabled: true
+  output_file: ./collected_logs/metrics.json
+  interval: 60  # seconds

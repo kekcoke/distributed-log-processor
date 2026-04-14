@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  log-collector-extended:
+    build: .
+    volumes:
+      - ./sample_logs:/app/sample_logs:ro
+      - ./collected_logs:/app/collected_logs
+    environment:
+      - PYTHONUNBUFFERED=1
+    command: >
+      --files 
+      ./sample_logs/application.log
+      ./sample_logs/access.json
+      ./sample_logs/cisco_syslog.log
+      ./sample_logs/access.clf
+      ./sample_logs/access.elf
+      ./sample_logs/access.w3c
+      --no-filter
+    restart: unless-stopped

@@ -1,0 +1,18 @@
+Tier,Component,Option 1,Option 2,Option 3
+Cheap,GPU,RTX 4070 Super,RTX 3060 12GB,RTX 3070 (used)
+Cheap,CPU,Ryzen 7 7700,Ryzen 7 7700X,i5-13400F
+Cheap,Motherboard,B650M-HDV,B650 Gaming Plus,B650 Aorus Elite
+Cheap,RAM,64GB DDR5 5600,64GB DDR5 6000,64GB DDR5 Corsair
+Cheap,Storage,1TB NVMe,2TB NVMe,SATA SSD
+
+Mid,GPU,RTX 4070 Super,RTX 4070 Ti,Used 4070 Super
+Mid,CPU,Ryzen 7 7700,Ryzen 7 7700X,Ryzen 7800X3D
+Mid,Motherboard,B650 Tomahawk,B650 Aorus Elite,B650 TUF
+Mid,RAM,64GB DDR5,64GB DDR5 6000,64GB DDR5 6400
+Mid,Storage,1TB + 2TB NVMe,2TB NVMe,1TB + SATA SSD
+
+Premium,GPU,RTX 4080 Super,RTX 4080,Used RTX 4080
+Premium,CPU,Ryzen 7 7700,Ryzen 9 7900,Ryzen 9 7950X
+Premium,Motherboard,B650 Tomahawk,B650E ASUS,NZXT B650E
+Premium,RAM,64GB DDR5,96GB DDR5,High-end 64GB kit
+Premium,Storage,2TB NVMe,4TB NVMe,2TB + HDD

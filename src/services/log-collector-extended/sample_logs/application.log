@@ -1,0 +1,10 @@
+2024-01-15T10:30:45.123 [INFO] [LOG-1705312245-1234]: User logged in successfully
+2024-01-15T10:30:46.456 [DEBUG] [LOG-1705312246-5678]: SQL query executed in 0.023s: SELECT * FROM users
+2024-01-15T10:30:47.789 [WARNING] [LOG-1705312247-9012]: High memory usage detected: 85%
+2024-01-15T10:30:48.012 [ERROR] [LOG-1705312248-3456]: Failed to connect to database: connection timeout
+2024-01-15T10:30:49.345 [INFO] [LOG-1705312249-7890]: Cache refreshed successfully
+2024-01-15T10:30:50.678 [DEBUG] [LOG-1705312250-1234]: Request headers processed: Content-Type=application/json
+2024-01-15T10:30:51.901 [CRITICAL] [LOG-1705312251-5678]: Disk space critical: 98% full
+2024-01-15T10:30:52.234 [INFO] [LOG-1705312252-9012]: API request completed in 0.156s
+2024-01-15T10:30:53.567 [WARNING] [LOG-1705312253-3456]: API response time exceeding threshold: 2.5s
+2024-01-15T10:30:54.890 [ERROR] [LOG-1705312254-7890]: Invalid user credentials for user@example.com
