@@ -1,0 +1,4 @@
+log_files:
+  - /app/logs/app.log
+check_interval: 0.5
+output_dir: /app/collected_logs

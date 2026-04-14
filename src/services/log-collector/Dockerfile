@@ -9,6 +9,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the log collector script
 COPY log_collector.py .
 
+# Copy .yml configuration file
+COPY config.yml .
+
 # Create directories for logs
 RUN mkdir -p /app/logs /app/collected_logs
 
