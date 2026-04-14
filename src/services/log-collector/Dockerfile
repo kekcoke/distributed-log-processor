@@ -11,7 +11,6 @@ COPY log_collector.py .
 
 # Copy .yml configuration file
 COPY config.yml .
-
 # Create directories for logs
 RUN mkdir -p /app/logs /app/collected_logs
 
