@@ -6,11 +6,11 @@ WORKDIR /app
 COPY src/services/log-generator/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Create logs directory
-RUN mkdir -p /logs
+# Create logs directory for collector
+RUN mkdir -p /app/logs
 
 # Copy application code
 COPY src/services/log-generator/ /app/
 
-# Run the application
-CMD ["python", "-u", "app.py"]
+# Run the application using the entrypoint script
+CMD ["python", "-u", "entrypoint.py"]

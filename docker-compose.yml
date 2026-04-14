@@ -11,6 +11,7 @@ services:
     volumes:
       - ./src/services/logger:/app
       - ./logs:/logs  # Mount a volume for persistent logs
+      - shared-logs:/app/logs  # Shared volume for collector
     ports:
       - "8000:8000"  # Original port
       - "8080:8080"  # Web interface port
@@ -23,3 +24,16 @@ services:
       - WEB_HOST=0.0.0.0
       - WEB_PORT=8080
       - MAX_LOGS_TO_DISPLAY=100
+
+  log-collector:
+    build:
+      context: .
+      dockerfile: src/services/log-collector/Dockerfile
+    volumes:
+      - shared-logs:/app/logs:ro  # Read-only access to generator's logs
+      - ./collected_logs:/app/collected_logs
+    depends_on:
+      - log-generator
+
+volumes:
+  shared-logs:
